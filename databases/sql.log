@@ -1,0 +1,334 @@
+timestamp: 2021-02-13T21:21:15.718166
+CREATE TABLE "auth_user"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "first_name" CHAR(128),
+    "last_name" CHAR(128),
+    "email" CHAR(512),
+    "password" CHAR(512),
+    "registration_key" CHAR(512),
+    "reset_password_key" CHAR(512),
+    "registration_id" CHAR(512)
+);
+success!
+timestamp: 2021-02-13T21:21:16.684807
+CREATE TABLE "auth_group"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "role" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2021-02-13T21:21:17.133451
+CREATE TABLE "auth_membership"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2021-02-13T21:21:17.531291
+CREATE TABLE "auth_permission"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "group_id" INTEGER REFERENCES "auth_group" ("id") ON DELETE CASCADE  ,
+    "name" CHAR(512),
+    "table_name" CHAR(512),
+    "record_id" INTEGER
+);
+success!
+timestamp: 2021-02-13T21:21:18.185933
+CREATE TABLE "auth_event"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "time_stamp" TIMESTAMP,
+    "client_ip" CHAR(512),
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "origin" CHAR(512),
+    "description" TEXT
+);
+success!
+timestamp: 2021-02-13T21:21:19.052874
+CREATE TABLE "auth_cas"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "created_on" TIMESTAMP,
+    "service" CHAR(512),
+    "ticket" CHAR(512),
+    "renew" CHAR(1)
+);
+success!
+timestamp: 2021-02-13T22:00:58.085691
+CREATE TABLE "empresa"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "proprietario" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "razaosocial" CHAR(512),
+    "nomefantasia" CHAR(512),
+    "cnpj" CHAR(512),
+    "inscricaoestarual" CHAR(512),
+    "inscricaomunicipal" CHAR(512),
+    "crt" CHAR(512),
+    "cep" CHAR(512),
+    "lougradouro" CHAR(512),
+    "numero" CHAR(512),
+    "bairro" CHAR(512),
+    "uf" CHAR(512),
+    "cidade" CHAR(512),
+    "complemento" CHAR(512),
+    "email" CHAR(512),
+    "telefone" CHAR(512),
+    "celular" CHAR(512),
+    "data_desaceleracao" DATE NOT NULL DEFAULT '2021-02-13',
+    "data_bloqueio" DATE NOT NULL DEFAULT '2021-02-13',
+    "ativo" CHAR(1),
+    "is_active" CHAR(1),
+    "created_on" TIMESTAMP,
+    "created_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "modified_on" TIMESTAMP,
+    "modified_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2021-02-13T22:01:00.608088
+CREATE TABLE "usuario_empresa"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "usuario" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "empresa" INTEGER REFERENCES "empresa" ("id") ON DELETE CASCADE  ,
+    "nome" CHAR(512),
+    "tipo" CHAR(512),
+    "ativo" CHAR(1)
+);
+success!
+timestamp: 2021-02-14T01:17:39.665968
+CREATE TABLE "projeto"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "administrador" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "chefe_equipe" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "empresa" INTEGER REFERENCES "empresa" ("id") ON DELETE CASCADE  ,
+    "data_inicial" DATE NOT NULL DEFAULT '2021-02-14',
+    "data_final" DATE NOT NULL DEFAULT '2021-02-14',
+    "descricao" CHAR(512),
+    "total_preco" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_custo" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_vale_chefe" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_vale_funcionario" DOUBLE NOT NULL DEFAULT 0.0,
+    "q_funcionarios" INTEGER,
+    "total_vale_vendedor" DOUBLE NOT NULL DEFAULT 0.0,
+    "q_vendedores" INTEGER,
+    "total_despesa_local" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_adiantamento" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_saldo_chefe" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_saldo_funcionario" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_saldo_vendedor" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_percas" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_preco_retorno" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_custo_retorno" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_debito_chefe" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_debito_funcionario" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_debito_vendedor" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_venda" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_recebido" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_devolucao_dinheiro" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_atrasado" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_aguardando" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_repasse" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_gratificacao" DOUBLE NOT NULL DEFAULT 0.0,
+    "is_active" CHAR(1),
+    "created_on" TIMESTAMP,
+    "created_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "modified_on" TIMESTAMP,
+    "modified_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2021-02-14T18:54:10.064598
+ALTER TABLE "empresa" ADD "q_logins" INTEGER;
+success!
+timestamp: 2021-02-14T19:25:08.017092
+CREATE TABLE "pessoa"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "empresa" INTEGER REFERENCES "empresa" ("id") ON DELETE CASCADE  ,
+    "nome" CHAR(512),
+    "observacao" TEXT,
+    "conferido" CHAR(1)
+);
+success!
+timestamp: 2021-02-14T19:26:23.131879
+ALTER TABLE "empresa" ADD "q_pessoas" INTEGER;
+success!
+timestamp: 2021-02-14T19:51:36.730898
+ALTER TABLE "pessoa" ADD "q_projetos" INTEGER;
+success!
+timestamp: 2021-02-14T19:52:24.781070
+ALTER TABLE "pessoa" ADD "total_recebido" DOUBLE NOT NULL DEFAULT 0.0;
+timestamp: 2021-02-14T19:52:27.126544
+ALTER TABLE "pessoa" ADD "total_venda" DOUBLE NOT NULL DEFAULT 0.0;
+success!
+timestamp: 2021-02-14T20:10:19.545222
+CREATE TABLE "pagamento_sistema"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "empresa" INTEGER REFERENCES "empresa" ("id") ON DELETE CASCADE  ,
+    "data_vencimento" DATE NOT NULL DEFAULT '2021-02-14',
+    "status" CHAR(512),
+    "valor" DOUBLE NOT NULL DEFAULT 0.0,
+    "is_active" CHAR(1),
+    "created_on" TIMESTAMP,
+    "created_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  ,
+    "modified_on" TIMESTAMP,
+    "modified_by" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  
+);
+success!
+timestamp: 2021-02-14T20:20:40.176629
+ALTER TABLE "projeto" ADD "comissao_vista" DOUBLE NOT NULL DEFAULT 0.0;
+timestamp: 2021-02-14T20:23:22.235182
+ALTER TABLE "projeto" ADD "comissao_prazo" DOUBLE NOT NULL DEFAULT 5.0;
+success!
+timestamp: 2021-02-15T01:14:13.662806
+ALTER TABLE "pessoa" ADD "apelido" CHAR(512);
+success!
+timestamp: 2021-02-15T01:15:42.532583
+ALTER TABLE "pessoa" ADD "celular" CHAR(512);
+success!
+timestamp: 2021-02-15T01:40:43.639235
+CREATE TABLE "produto"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "empresa" INTEGER REFERENCES "empresa" ("id") ON DELETE CASCADE  ,
+    "descricao" CHAR(512),
+    "custo_unitario" DOUBLE NOT NULL DEFAULT 0.0,
+    "preco_unitario" DOUBLE NOT NULL DEFAULT 0.0,
+    "observacao" TEXT,
+    "ativo" CHAR(1)
+);
+success!
+timestamp: 2021-02-15T02:04:22.614963
+CREATE TABLE "carrada"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "empresa" INTEGER REFERENCES "empresa" ("id") ON DELETE CASCADE  ,
+    "projeto" INTEGER REFERENCES "projeto" ("id") ON DELETE CASCADE  ,
+    "data_envio" DATE NOT NULL DEFAULT '2021-02-15',
+    "descricao" CHAR(512),
+    "custo_total" DOUBLE NOT NULL DEFAULT 0.0,
+    "preco_total" DOUBLE NOT NULL DEFAULT 0.0,
+    "observacao" TEXT,
+    "ativo" CHAR(1)
+);
+success!
+timestamp: 2021-02-15T02:12:37.900477
+ALTER TABLE "carrada" ADD "q_itens" INTEGER;
+success!
+timestamp: 2021-02-15T02:20:56.036870
+ALTER TABLE "carrada" ADD "conferida" CHAR(1);
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2021-02-15T02:33:55.972420
+CREATE TABLE "carrada"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "empresa" INTEGER REFERENCES "empresa" ("id") ON DELETE CASCADE  ,
+    "projeto" INTEGER REFERENCES "projeto" ("id") ON DELETE CASCADE  ,
+    "data_envio" DATE NOT NULL DEFAULT '2021-02-15',
+    "descricao" CHAR(512),
+    "q_itens" INTEGER,
+    "custo_total" DOUBLE NOT NULL DEFAULT 0.0,
+    "preco_total" DOUBLE NOT NULL DEFAULT 0.0,
+    "observacao" TEXT,
+    "conferida" CHAR(1)
+);
+faked!
+timestamp: 2021-02-15T02:41:34.239974
+CREATE TABLE "item_carrada"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "empresa" INTEGER REFERENCES "empresa" ("id") ON DELETE CASCADE  ,
+    "projeto" INTEGER REFERENCES "projeto" ("id") ON DELETE CASCADE  ,
+    "carrada" INTEGER REFERENCES "carrada" ("id") ON DELETE CASCADE  ,
+    "produto" INTEGER REFERENCES "produto" ("id") ON DELETE CASCADE  ,
+    "descricao" CHAR(512),
+    "q_itens" INTEGER,
+    "custo_unitario" DOUBLE NOT NULL DEFAULT 0.0,
+    "preco_unitario" DOUBLE NOT NULL DEFAULT 0.0,
+    "custo_total" DOUBLE NOT NULL DEFAULT 0.0,
+    "preco_total" DOUBLE NOT NULL DEFAULT 0.0,
+    "conferida" CHAR(1)
+);
+success!
+timestamp: 2021-02-15T03:59:09.304490
+ALTER TABLE "item_carrada" ADD "fornecedor" CHAR(512);
+success!
+timestamp: 2021-02-15T04:00:03.264793
+CREATE TABLE "item_carrada"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "empresa" INTEGER REFERENCES "empresa" ("id") ON DELETE CASCADE  ,
+    "projeto" INTEGER REFERENCES "projeto" ("id") ON DELETE CASCADE  ,
+    "carrada" INTEGER REFERENCES "carrada" ("id") ON DELETE CASCADE  ,
+    "produto" INTEGER REFERENCES "produto" ("id") ON DELETE CASCADE  ,
+    "descricao" CHAR(512),
+    "fornecedor" CHAR(512),
+    "q_itens" INTEGER,
+    "custo_unitario" DOUBLE NOT NULL DEFAULT 0.0,
+    "preco_unitario" DOUBLE NOT NULL DEFAULT 0.0,
+    "custo_total" DOUBLE NOT NULL DEFAULT 0.0,
+    "preco_total" DOUBLE NOT NULL DEFAULT 0.0,
+    "conferida" CHAR(1)
+);
+faked!
+timestamp: 2021-02-23T18:10:05.193009
+CREATE TABLE "vendedor"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "projeto" INTEGER REFERENCES "projeto" ("id") ON DELETE CASCADE  ,
+    "pessoa" INTEGER REFERENCES "pessoa" ("id") ON DELETE CASCADE  ,
+    "nome" CHAR(512),
+    "vale_saida" DOUBLE NOT NULL DEFAULT 0.0,
+    "comissao_venda" DOUBLE NOT NULL DEFAULT 20.0,
+    "descricao" TEXT,
+    "total_vale_caderno" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_vendas" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_entradas" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_fichas" INTEGER NOT NULL DEFAULT 0,
+    "comissao_cobranca" DOUBLE NOT NULL DEFAULT 10.0,
+    "total_recebido" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_devolvido" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_prego" DOUBLE NOT NULL DEFAULT 0.0
+);
+success!
+timestamp: 2021-02-23T18:12:50.944845
+ALTER TABLE "vendedor" ADD "empresa" INTEGER REFERENCES "empresa" ("id") ON DELETE CASCADE  ;
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+success!
+timestamp: 2021-02-23T18:43:55.390582
+CREATE TABLE "vendedor"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "empresa" INTEGER REFERENCES "empresa" ("id") ON DELETE CASCADE  ,
+    "projeto" INTEGER REFERENCES "projeto" ("id") ON DELETE CASCADE  ,
+    "pessoa" INTEGER REFERENCES "pessoa" ("id") ON DELETE CASCADE  ,
+    "nome" CHAR(512),
+    "vale_saida" DOUBLE NOT NULL DEFAULT 0.0,
+    "comissao_venda" DOUBLE NOT NULL DEFAULT 20.0,
+    "total_vale_caderno" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_vendas" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_entradas" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_fichas" INTEGER NOT NULL DEFAULT 0,
+    "comissao_cobranca" DOUBLE NOT NULL DEFAULT 10.0,
+    "total_recebido" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_devolvido" DOUBLE NOT NULL DEFAULT 0.0,
+    "total_prego" DOUBLE NOT NULL DEFAULT 0.0
+);
+faked!

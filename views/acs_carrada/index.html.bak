@@ -1,0 +1,158 @@
+{{extend 'layout.html'}}
+<div class="py-5 text-center" >
+    <div class="container">
+      <div class="row">
+        <div class="mx-auto col-md-8">
+          <h2 class="mb-3">Lista de Carradas</h2>
+          <p class="lead">Lotes de mercadoria enviada</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-6 my-1">
+                <a class="btn btn-outline-danger btn-block" href="{{=URL('acs_projeto','acessar', args=projeto.id)}}">
+                    <i class="fa fa-fw fa-arrow-left"></i>
+                    Voltar
+                </a>
+            </div>
+            <div class="col-md-6 my-1">
+              {{if 20>total:}}
+              <a class="btn btn-outline-success btn-block" href="{{=URL('cadastrar',args=projeto.id)}}">
+                <i class="fa fa-fw fa-plus"></i>Cadastrar</a>
+              {{pass}}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 my-1">
+          {{if False:}}
+          <div class="form-group row  ml-1">
+            <input type="text" class="form-control col-9 col-form-label" name="busca" placeholder="Pesquisa Nome" id="input"/>
+            <div class="col-2">
+              <button class="btn btn-primary botao" id="bt" type="button">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+          {{pass}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-striped table-borderless">
+              <thead>
+                <tr>
+                  <th scope="col">Descrição</th>
+                  <th scope="col">Qnt</th>
+                  <th scope="col">Cst</th>
+                  <th scope="col">Prc</th>
+                  <th scope="col" class="text-center">Escolher</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                {{quantidade=0}}
+                {{total_preco=0}}
+                {{total_custo=0}}
+                  {{for row in rows:}}
+                <tr>
+                  <th scope="row">{{=row.descricao}}</th>
+                  <td>{{=row.q_itens}}</td>
+                  <th scope="row">R$ {{="{:,}".format(round(row.custo_total,1)).replace(",","#").replace(".",",").replace("#",".")}}0</th>
+                  <th scope="row">R$ {{="{:,}".format(round(row.preco_total,1)).replace(",","#").replace(".",",").replace("#",".")}}0</th>
+                 
+                     <td>
+                      <a class="btn btn-outline-warning btn-block" href="{{=URL('alterar',args=[row.id])}}">
+                           <i class="fa fa-fw fa-pencil"></i> Alterar
+                          
+                      </a>
+                    </td><td>
+                      <a class="btn btn-outline-primary btn-block" href="{{=URL('acessar',args=[row.id])}}">
+                          Acessar <i class="fa fa-fw fa-hand-o-right "></i>
+                          
+                      </a>
+                    </td>
+                </tr>
+                
+                  {{quantidade+=row.q_itens}}
+                {{total_preco+=row.preco_total}}
+                {{total_custo+=row.custo_total}}
+                  {{pass}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p class="">Você possui {{=total}} carradas cadastradas</p>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+          <div class="col-md-12">
+            <nav aria-label="Navegação de página exemplo">
+  <ul class="pagination justify-content-end">
+        {{ if pagina != 1: }}
+        <li class="page-item">
+            <a class="btn btn-outline-primary m-1" href="{{ =URL(args=pagina-1) }}">
+                <i class="fa fa-fw fa-arrow-left"></i>
+                Anterior&nbsp;</a>
+        </li>
+        {{ pass }}
+
+        {{ if pagina != paginas: }}
+        <li class="page-item">
+             <a class="btn btn-outline-primary m-1" href="{{ =URL(args=pagina+1) }}" >
+                Próximo&nbsp;
+                <i class="fa fa-fw fa-arrow-right"></i>
+            </a>
+        </li>
+        {{ pass }}
+    </ul>
+</nav>
+</div>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="py-3 text-center" >
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-6 p-4"> <i class="d-block fa fa-circle fa-3x mb-2 text-muted"></i>
+          <h4> <b>Custo Total</b></h4>
+          <p>R$ {{="{:,}".format(round(total_custo,1)).replace(",",".")}}0</p>
+        </div>
+        <div class="col-lg-5 col-md-6 p-4"> <i class="d-block fa fa-circle-o fa-3x mb-2 text-muted"></i>
+          <h4> <b>Preço Total</b></h4>
+          <p>R$ {{="{:,}".format(round(total_preco,1)).replace(",",".")}}0</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+    var inputElement = document.querySelector('input[name=busca]');
+    var btnElement = document.querySelector('button.botao');
+
+    btnElement.onclick = function(){
+     var busca= inputElement.value;
+        window.location.href = "{{=URL('index')}}/"+{{=projeto.id}}+"/1/"+busca
+
+    }
+    $(document).keypress(function(e) {
+    if(e.which == 13) {
+     var busca= inputElement.value;
+        window.location.href = "{{=URL('index')}}/"+{{=projeto.id}}+"/1/"+busca
+    }
+});
+</script>
+{{if (projeto.total_preco!=total_preco)or(projeto.total_custo!=total_custo):}}
+{{projeto.total_preco=total_preco}}
+{{projeto.total_custo=total_custo}}
+{{projeto.update_record()}}
+{{pass}}

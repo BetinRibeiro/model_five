@@ -1,0 +1,161 @@
+{{extend 'layout.html'}}
+<div class="py-5 text-center" >
+    <div class="container">
+      <div class="row">
+        <div class="mx-auto col-md-8">
+          <h2 class="mb-3">{{=empresa.razaosocial}}</h2>
+          <p class="lead">{{=usuario.nome}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 my-3">
+          <div class="p-3">
+            <div class="card border" >
+              <div class="card-header"> Equipes </div>
+              <div class="card-body">
+                <i class="d-block fa fa-3x mb-2 text-muted fa-sitemap"></i>
+                <p class="lead">Equipes de vendas</p>
+                <a class="btn btn-outline-primary" href="{{=URL('acs_projeto','index')}}">Acessar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 my-3">
+          <div class="p-3">
+            <div class="card border" >
+              <div class="card-header"> Login's </div>
+              <div class="card-body">
+                <i class="d-block fa fa-3x mb-2 text-muted fa-users"></i>
+                <p class="lead">Logins de acesso</p>
+                <a class="btn btn-outline-primary" href="{{=URL('acs_usuario','index')}}">Acessar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 my-3">
+          <div class="p-3">
+            <div class="card border" >
+              <div class="card-header"> Pagamentos </div>
+              <div class="card-body">
+                <i class="d-block fa fa-3x mb-2 text-muted fa-dollar"></i>
+                <p class="lead">Pagamentos Sistema</p>
+                <a class="btn btn-outline-primary disabled" href="#">Acessar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 my-3">
+          <div class="p-3">
+            <div class="card border" >
+              <div class="card-header"> Vendas </div>
+              <div class="card-body">
+                <i class="d-block fa fa-3x mb-2 text-muted fa-bar-chart"></i>
+                <p class="lead">Vendas</p>
+                <a class="btn btn-outline-primary disabled" href="#">Acessar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 my-3">
+          <div class="p-3">
+            <div class="card border" >
+              <div class="card-header"> Produto </div>
+              <div class="card-body">
+                <i class="d-block fa fa-3x mb-2 text-muted fa-shopping-cart "></i>
+                <p class="lead">Lista de Produtos</p>
+                <a class="btn btn-outline-primary" href="{{=URL('acs_produto','index')}}">Acessar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 my-3">
+          <div class="p-3">
+            <div class="card border" >
+              <div class="card-header"> XX </div>
+              <div class="card-body">
+                <i class="d-block fa fa-3x mb-2 text-muted fa-motorcycle"></i>
+                <p class="lead">XX</p>
+                <a class="btn btn-outline-primary disabled" href="{{=URL('acs_usuario','index')}}">Acessar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 my-3">
+          <div class="p-3">
+            <div class="card border" >
+              <div class="card-header"> XX </div>
+              <div class="card-body">
+                <i class="d-block fa fa-3x mb-2 text-muted fa-circle"></i>
+                <p class="lead">XX</p>
+                <a class="btn btn-outline-primary disabled" href="#">Acessar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 my-3">
+          <div class="p-3">
+            <div class="card border" >
+              <div class="card-header"> XX </div>
+              <div class="card-body">
+                <i class="d-block fa fa-3x mb-2 text-muted fa-circle"></i>
+                <p class="lead">XX</p>
+                <a class="btn btn-outline-primary disabled" href="#">Acessar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 my-3">
+          <div class="p-3">
+            <div class="card border" >
+              <div class="card-header"> Recebimentos </div>
+              <div class="card-body">
+                <i class="d-block fa fa-3x mb-2 text-muted fa-pie-chart"></i>
+                <p class="lead">Recebimentos</p>
+                <a class="btn btn-outline-primary disabled" href="#">Acessar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+         <div class="col-md-3 my-3">
+          <div class="p-3">
+            <div class="card border" >
+              <div class="card-header"> Clientes </div>
+              <div class="card-body">
+                <i class="d-block fa fa-3x mb-2 text-muted fa-money"></i>
+                <p class="lead">Clientes em Atraso</p>
+                <a class="btn btn-outline-primary disabled" href="#">Acessar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+         <div class="col-md-3 my-3">
+          <div class="p-3">
+            <div class="card border" >
+              <div class="card-header"> Pessoas </div>
+              <div class="card-body">
+                <i class="d-block fa fa-3x mb-2 text-muted fa-user"></i>
+                <p class="lead">Pessoas Contratadas.</p>
+                <a class="btn btn-outline-primary" href="{{=URL('acs_pessoa','index')}}">Acessar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+         <div class="col-md-3 my-3">
+          <div class="p-3">
+            <div class="card border" >
+              <div class="card-header"> Empresa </div>
+              <div class="card-body">
+                <i class="d-block fa fa-3x mb-2 text-muted fa-gears"></i>
+                <p class="lead">Dados da Empresa.</p>
+                <a class="btn btn-outline-primary" href="{{=URL('acs_empresa','alterar')}}">Acessar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+    </div>
+  </div>

@@ -1,0 +1,183 @@
+# -*- coding: utf-8 -*-
+def index():
+    usuario = db.usuario_empresa(db.usuario_empresa.usuario==auth.user.id)
+    empresa = db.empresa(usuario.empresa)
+    projeto=db.projeto(db.projeto.id==request.args(0, cast=int))
+    paginacao = 1
+    if len(request.args) == 1:
+        pagina = 1
+    else:
+        try:
+            pagina = int(request.args[1])
+        except ValueError:
+            redirect(URL('erro', vars={
+                  'msg':'Numero da página inválido'
+                  }))
+    if pagina <= 0:
+        redirect(URL(args=[projeto.id,1]))
+    total = db((db.carrada.projeto==projeto.id)).count()
+    paginas = total/paginacao
+    if total%paginacao:
+        paginas+=1
+    if total==0:
+        paginas=1
+    if pagina > paginas:
+        redirect(URL(args=[paginas]))
+    limites = (paginacao*(pagina-1), (paginacao*pagina))
+    registros = db((db.carrada.projeto==projeto.id)).select(
+      limitby=limites,orderby=db.carrada.id
+      )
+    consul=(request.args(2))
+    if (consul):
+        registros = db((db.carrada.projeto==projeto.id)&((db.carrada.descricao.contains(consul)))).select(limitby=(0,paginacao))
+    return dict(rows=registros, pagina=pagina, paginas=paginas, total=total, empresa=empresa, usuario=usuario, consul=consul ,projeto=projeto)
+
+@auth.requires_login()
+def cadastrar():
+    response.view = 'generic.html' # use a generic view
+    request.function='Cadastrar Carrada'
+    usuario = db.usuario_empresa(db.usuario_empresa.usuario==auth.user.id)
+    projeto=db.projeto(db.projeto.id==request.args(0, cast=int))
+    db.carrada.empresa.default=usuario.empresa
+    db.carrada.empresa.writable=False
+    db.carrada.empresa.readable=False
+    db.carrada.projeto.default=usuario.empresa
+    db.carrada.projeto.writable=False
+    db.carrada.projeto.readable=False
+    if not usuario:
+        redirect(URL('default','index'))
+    form = SQLFORM(db.carrada).process()
+    if form.accepted:
+        response.flash = 'Formulario aceito'
+        redirect(URL('index', args=projeto.id))
+    elif form.errors:
+        response.flash = 'Formulario não aceito'
+    else:
+        response.flash = 'Preencha o formulario'
+    return  dict(form=form)
+
+@auth.requires_login()
+def alterar():
+    response.view = 'generic.html' # use a generic view
+    request.function='Alterar Carrada'
+    carrada=db.carrada(request.args(0, cast=int))
+    db.carrada.id.writable=False
+    db.carrada.id.readable=False
+    db.carrada.empresa.writable=False
+    db.carrada.empresa.readable=False
+    db.carrada.projeto.writable=False
+    db.carrada.projeto.readable=False
+    form = SQLFORM(db.carrada, carrada.id, deletable=False)
+    if form.process().accepted:
+        session.flash = 'Projeto atualizado'
+        redirect(URL('index', args=carrada.projeto))
+    elif form.errors:
+        response.flash = 'Erros no formulário!'
+    return dict(form=form)
+  
+def acessar():
+    usuario = db.usuario_empresa(db.usuario_empresa.usuario==auth.user.id)
+    empresa = db.empresa(usuario.empresa)
+    carrada=db.carrada(request.args(0, cast=int))
+    paginacao = 50
+    if len(request.args) == 1:
+        pagina = 1
+    else:
+        try:
+            pagina = int(request.args[1])
+        except ValueError:
+            redirect(URL('erro', vars={
+                  'msg':'Numero da página inválido'
+                  }))
+    if pagina <= 0:
+        redirect(URL(args=[projeto.id,1]))
+    total = db((db.item_carrada.carrada==carrada.id)).count()
+    paginas = total/paginacao
+    if total%paginacao:
+        paginas+=1
+    if total==0:
+        paginas=1
+    if pagina > paginas:
+        redirect(URL(args=[paginas]))
+    limites = (paginacao*(pagina-1), (paginacao*pagina))
+    registros = db((db.item_carrada.carrada==carrada.id)).select(
+      limitby=limites,orderby=db.item_carrada.id
+      )
+    consul=(request.args(2))
+    if (consul):
+        registros = db((db.item_carrada.carrada==carrada.id)&((db.item_carrada.descricao.contains(consul)))).select(limitby=(0,paginacao))
+    return dict(rows=registros, pagina=pagina, paginas=paginas, total=total, empresa=empresa, usuario=usuario, consul=consul ,carrada=carrada)
+
+  
+def inserir():
+    usuario = db.usuario_empresa(db.usuario_empresa.usuario==auth.user.id)
+    empresa = db.empresa(usuario.empresa)
+    carrada=db.carrada(request.args(0, cast=int))
+    paginacao = 35
+    if len(request.args) == 1:
+        pagina = 1
+    else:
+        try:
+            pagina = int(request.args[1])
+        except ValueError:
+            redirect(URL('erro', vars={
+                  'msg':'Numero da página inválido'
+                  }))
+    if pagina <= 0:
+        redirect(URL(args=[carrada.id,1]))
+    total = db((db.produto.empresa==empresa.id)&(db.produto.ativo==True)).count()
+    paginas = total/paginacao
+    if total%paginacao:
+        paginas+=1
+    if total==0:
+        paginas=1
+    if pagina > paginas:
+        redirect(URL(args=[paginas]))
+    limites = (paginacao*(pagina-1), (paginacao*pagina))
+    registros = db((db.produto.empresa==empresa.id)&(db.produto.ativo==True)).select(
+      limitby=limites,orderby=db.produto.id
+      )
+    consul=(request.args(2))
+    if (consul):
+        registros = db((db.produto.empresa==empresa.id)&(db.produto.descricao.contains(consul))&(db.produto.ativo==True)).select(limitby=(0,paginacao))
+    return dict(rows=registros, pagina=pagina, paginas=paginas, total=total, empresa=empresa, usuario=usuario, consul=consul ,carrada=carrada)
+  
+def selecionar():
+    response.view = 'generic.html' # use a generic view
+    carrada=db.carrada(request.args(0, cast=int))
+    produto=db.produto(request.args(1, cast=int))
+    request.function=''+str(produto.descricao)
+    usuario = db.usuario_empresa(db.usuario_empresa.usuario==auth.user.id)
+    projeto=db.projeto(db.projeto.id==carrada.projeto)
+    db.item_carrada.empresa.default=usuario.empresa
+    db.item_carrada.empresa.writable=False
+    db.item_carrada.empresa.readable=False
+
+    db.item_carrada.projeto.default=carrada.projeto
+    db.item_carrada.projeto.writable=False
+    db.item_carrada.projeto.readable=False
+
+    db.item_carrada.carrada.default=carrada.id
+    db.item_carrada.carrada.writable=False
+    db.item_carrada.carrada.readable=False
+
+    db.item_carrada.produto.default=produto.id
+    db.item_carrada.produto.writable=False
+    db.item_carrada.produto.readable=False
+
+    db.item_carrada.descricao.default=produto.descricao
+    db.item_carrada.descricao.writable=False
+    db.item_carrada.descricao.readable=False
+    db.item_carrada.custo_unitario.default=produto.custo_unitario
+    db.item_carrada.preco_unitario.default=produto.preco_unitario
+
+    db.item_carrada.produto.default=produto.id
+    form = SQLFORM(db.item_carrada).process()
+    if form.accepted:
+        response.flash = 'Formulario aceito'
+        redirect(URL('acessar', args=carrada.id))
+    elif form.errors:
+        response.flash = 'Formulario não aceito'
+    else:
+        response.flash = 'Preencha o formulario'
+    return  dict(form=form)

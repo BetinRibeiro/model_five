@@ -1,0 +1,4 @@
+# -*- coding: utf-8 -*-
+def index():
+    projeto=db.projeto(request.args(0, cast=int))
+    return locals()

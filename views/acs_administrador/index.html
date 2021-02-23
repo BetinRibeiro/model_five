@@ -1,0 +1,131 @@
+{{extend 'layout.html'}}
+<div class="py-5 text-center" >
+    <div class="container">
+      <div class="row">
+        <div class="mx-auto col-md-8">
+          <h2 class="mb-3">Lista de Usuarios</h2>
+          <p class="lead">Escolha quem será o administrador</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-6 my-1">
+                <a class="btn btn-outline-danger btn-block" href="{{=URL('acs_projeto','acessar', args=projeto.id)}}">
+                    <i class="fa fa-fw fa-arrow-left"></i>
+                    Voltar
+                </a>
+            </div>
+            <div class="col-md-6 my-1">
+              {{if projeto.administrador:}}
+                <h5>
+                  Administrador {{=projeto.administrador.first_name}}
+              </h5>
+              {{else:}}
+              <h5>
+                  Defina um administrador
+              </h5>
+              {{pass}}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 my-1">
+          <div class="form-group row  ml-1">
+            <input type="text" class="form-control col-9 col-form-label" name="busca" placeholder="Pesquisa Nome" id="input"/>
+            <div class="col-2">
+              <button class="btn btn-primary botao" id="bt" type="button">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-striped table-borderless">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Nome</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Senha</th>
+                  <th scope="col" class="text-center">Escolher</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {{a=1}}
+                  {{for row in rows:}}
+                <tr>
+                    <th>{{=a}}</th>{{a+=1}}
+                  <th scope="row">{{=row.nome}}</th>
+                  <td>{{=row.usuario.email}}</td>
+                  <td>********</td>
+                 
+                     <td>
+                      <a class="btn btn-outline-success btn-block" href="{{=URL('escolher',args=[projeto.id,row.id])}}">
+                          Selecionar <i class="fa fa-fw fa-hand-o-right "></i>
+                          
+                      </a>
+                    </td>
+                </tr>
+                  {{pass}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p class="">Você possui {{=total}} Logins Cadastrados</p>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+          <div class="col-md-12">
+            <nav aria-label="Navegação de página exemplo">
+  <ul class="pagination justify-content-end">
+        {{ if pagina != 1: }}
+        <li class="page-item">
+            <a class="btn btn-outline-primary m-1" href="{{ =URL(args=pagina-1) }}">
+                <i class="fa fa-fw fa-arrow-left"></i>
+                Anterior&nbsp;</a>
+        </li>
+        {{ pass }}
+
+        {{ if pagina != paginas: }}
+        <li class="page-item">
+             <a class="btn btn-outline-primary m-1" href="{{ =URL(args=pagina+1) }}" >
+                Próximo&nbsp;
+                <i class="fa fa-fw fa-arrow-right"></i>
+            </a>
+        </li>
+        {{ pass }}
+    </ul>
+</nav>
+</div>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+    var inputElement = document.querySelector('input[name=busca]');
+    var btnElement = document.querySelector('button.botao');
+
+    btnElement.onclick = function(){
+     var busca= inputElement.value;
+        window.location.href = "{{=URL('index')}}/"+{{=projeto.id}}+"/1/"+busca
+
+    }
+    $(document).keypress(function(e) {
+    if(e.which == 13) {
+     var busca= inputElement.value;
+        window.location.href = "{{=URL('index')}}/"+{{=projeto.id}}+"/1/"+busca
+    }
+});
+</script>

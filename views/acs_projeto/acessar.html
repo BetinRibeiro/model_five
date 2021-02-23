@@ -1,0 +1,87 @@
+{{extend 'layout.html'}}
+<div class="py-5 text-center" >
+    <div class="container">
+      <div class="row">
+        <div class="mx-auto col-md-8">
+          <h1 class="mb-3">{{=projeto.descricao}}</h1>
+          <p class="lead">{{=empresa.razaosocial}}</p>
+          {{if projeto.administrador:}}
+          <p class="lead">Administrador - {{=projeto.administrador.first_name}} {{=projeto.administrador.last_name}}</p>
+          {{else:}}
+          <p class="lead text-danger">Você precisa definir um administrador</p>
+          {{pass}}
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="text-center" >
+    <div class="container">
+      <div class="row">
+          <div class="col-md-2 p-1">
+            <a class="btn btn-outline-danger btn-block m-1" href="{{=URL('index')}}">
+              <i class="fa fa-fw fa-arrow-left"></i> Voltar </a>
+          </div>
+          <div class="col-md-2 p-1">
+            <a class="btn btn-outline-warning btn-block m-1" href="{{=URL('acs_administrador','index',args=[projeto.id,1])}}">
+              <i class="fa fa-fw fa-list"></i> Administrador</a>
+          </div>
+          <div class="col-md-2 p-1">
+            <a class="btn btn-outline-warning btn-block m-1" href="{{=URL('acs_chefe','index',args=[projeto.id,1])}}">
+              <i class="fa fa-fw fa-list"></i> Chefe Equipe</a>
+          </div>
+          <div class="col-md-2 p-1">
+            <a class="btn btn-outline-warning btn-block m-1" href="{{=URL('acs_conexao','index')}}">
+              <i class="fa fa-fw fa-plus"></i> Conexão</a>
+          </div>
+         <div class="col-md-2 p-1">
+            <a class="btn btn-outline-warning btn-block m-1" href="{{=URL('index')}}">
+              <i class="fa fa-fw fa-plus"></i> Prestação</a>
+          </div>
+          <div class="col-md-2 p-1">
+            <a class="btn btn-outline-success btn-block m-1" href="{{=URL('acs_relatorio','investimento',args=projeto.id)}}">
+              <i class="fa fa-fw fa-plus"></i> Investimento</a>
+          </div>
+      </div>
+        <hr>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="list-group">
+            <a class="btn btn-outline-primary m-1" href="{{=URL('acs_carrada','index',args=[projeto.id,1])}}">
+              <i class="fa fa-fw fa-upload"></i> Mercadoria Envio
+            </a>
+            <a class="btn btn-outline-primary m-1" href="{{=URL('acs_equipe','index',args=projeto.id)}}"><i class="fa fa-fw fa-sitemap"></i>&nbsp;Equipe de Vendas</a>
+            <a class="btn btn-outline-primary m-1" href="#"><i class="fa fa-fw fa-users"></i>&nbsp;Funcionarios</a>
+            <a class="btn btn-outline-primary m-1" href="#"><i class="fa fa-download fa-fw"></i>&nbsp;Mercadoria Retorno</a>
+          </div>
+          <hr>
+        </div>
+        <div class="col-md-3">
+          <div class="list-group">
+            <a class="btn btn-outline-primary m-1" href="#"><i class="fa fa-fw fa-list"></i>&nbsp;Vale do Chefe</a>
+            <a class="btn btn-outline-primary m-1" href="#"><i class="fa fa-fw fa-money"></i>&nbsp;Dinheiro do Projeto</a>
+            <a class="btn btn-outline-primary m-1" href="#"><i class="fa fa-fw fa-dollar"></i>&nbsp;Despesas da Venda</a>
+            <a class="btn btn-outline-primary m-1" href="#"><i class="fa fa-fw fa-dollar"></i>&nbsp;Despesa local</a>
+          </div>
+          <hr>
+        </div>
+        <div class="col-md-3">
+          <div class="list-group">
+            <a class="btn btn-outline-primary m-1" href="#"><i class="fa fa-download fa-fw"></i>&nbsp;Percas do projeto</a>
+            <a class="btn btn-outline-primary m-1" href="#"><i class="fa fa-download fa-fw"></i>&nbsp;Gratificações</a>
+            <a class="btn btn-outline-primary m-1" href="#"><i class="fa fa-fw fa-user-o"></i>&nbsp;Funcionarios</a>
+            <a class="btn btn-outline-primary m-1" href="#"><i class="fa fa-fw fa-car"></i>&nbsp;Transportes</a>
+          </div>
+          <hr>
+        </div>
+        <div class="col-md-3">
+          <div class="list-group">
+            <a class="btn btn-outline-primary m-1" href="#"><i class="fa fa-fw fa-file"></i>&nbsp;Prestação de Contas</a>
+            <a class="btn btn-outline-primary m-1" href="#"><i class="fa fa-download fa-fw"></i>&nbsp;Investimentos</a>
+            <a class="btn btn-outline-primary m-1" href="#"><i class="fa fa-download fa-fw"></i>&nbsp;Venda à Vista</a>
+            <a class="btn btn-outline-primary m-1" href="#"><i class="fa fa-download fa-fw"></i>&nbsp;Entrada de Repasse</a>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </div>
+    </div>
